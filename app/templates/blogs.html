@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+<div class="container">
+<h3 style='text-decoration:underline;'>{{ legend }}</h3>
+<hr>
+  {{wtf.quick_form(form)}}
+  {{simplemde.load}}
+</div>
+{% endblock %}

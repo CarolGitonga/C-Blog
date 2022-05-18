@@ -1,0 +1,156 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<!-- Styles block -->
+
+{% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}">
+{% endblock %}
+<!-- Content block -->
+
+<div class="container">
+
+    <h1 class="teal-text text-center" style="font-size: 20px;"> WELCOME TO C-BLOG</h1>
+
+      <h2><a class="btn teal-text btn-lg text-center" href="{{url_for('main.new_blog')}}"> Create a blog</a></h2>
+
+
+        <div class="card w-80">
+        <div class="card-body">
+            <h5 class="card-title teal-text" style='text-decoration:underline;'>Random Quotes</h5>
+            <h6 class="card-title teal-text">Author : <cite title="Source Title">{{ quotes.author }}</cite></h6>
+            <p class="card-text note note-info">{{ quotes.quote }}</p>
+            <a href="{{ quotes.permalink }}" target='_blank' class="btn btn-teal btn-sm">View Quote</a>
+        </div>
+        </div>
+
+    <br>
+
+    {% for items in blogs[::-1] %}
+
+    <div class="row">
+
+    <div class='col-sm-9 col-md-10 col-lg-11'>
+    <!-- News jumbotron -->
+<div class="jumbotron text-center hoverable p-4">
+
+  <!-- Grid row -->
+  <div class="row">
+
+    <!-- Grid column -->
+    <div class="col-md-4 offset-md-1 mx-3 my-3">
+
+      <!-- Featured image -->
+      <div class="view overlay">
+         {% if items.blogger.profile_pic_path %}
+        <img src="{{url_for('static',filename=items.blogger.profile_pic_path)}}" class="img-fluid" alt="User Profile">
+      {%else%}
+
+      <img src="{{url_for('static',filename='photos/profpic.jpg')}}" class="img-fluid" alt="User Profile">
+
+        {% endif %}
+
+        <a>
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+
+    </div>
+    <!-- Grid column -->
+
+    <!-- Grid column -->
+    <div class="col-md-7 text-md-left ml-3 mt-3">
+
+      <!-- Excerpt -->
+      <a href="#!" class="teal-text">
+        <h6 class="h6 pb-1"><i class="fas fa-comment-alt pr-1"></i> Blog</h6>
+      </a>
+
+      <h4 class="h4 mb-4">{{ items.title| capitalize }}</h4>
+
+      <p class="font-weight-normal" style="font-size: 15px;">{{ items.blog }}</p>
+      <p class="font-weight-normal" style="font-size: 15px;">by <a><strong>{{ items.blogger.username }}</strong></a>, {{ items.posted.strftime('%d-%m-%Y') }}</p>
+
+      <a href='{{url_for('main.new_comment', blog_id = items.id)}}' class="btn btn-default btn-sm"><i class="far fa-comments fa-2x"></i> <span style='font-size:7px;'>Comments</span></a>
+
+    {% if items.blogger == current_user %}
+
+      <a href='{{url_for('main.update_blog', blog_id = items.id)}}' class="btn btn-default btn-sm"><span style='font-size:7px;'>Update</span></a>
+
+      <a href='' data-toggle="modal" data-target="#deleteModalCenter" class="btn btn-default btn-sm"><i class="fas fa-trash-alt fa-2x"></i> <span style='font-size:7px;'>Delete</span></a>
+   
+    {% endif %}
+
+    </div>
+    <!-- Grid column -->
+
+  </div>
+  <!-- Grid row -->
+
+</div>
+<!-- News jumbotron -->
+</div>
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle"
+  aria-hidden="true">
+
+  <!-- Add .modal-dialog-centered to .modal-dialog to vertically center the modal -->
+  <div class="modal-dialog modal-dialog-centered" role="document">
+
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to delete this post?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <form action='{{url_for('main.delete', blog_id = items.id)}}' method='POST'>
+        <input class='btn btn-danger btn-sm' type='submit' value='Delete Blog'>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+
+
+</div>
+
+<!-- Footer -->
+<footer class="page-footer font-small teal pt-4">
+
+  <!-- Footer Elements -->
+  <div class="container">
+
+    <!-- Call to action -->
+    <ul class="list-unstyled list-inline text-center py-2">
+      <li class="list-inline-item">
+        <h5 class="mb-1">Subscribe To Our Blog</h5>
+      </li>
+      <li class="list-inline-item">
+        <a href="{{url_for('main.subscribe')}}" class="btn btn-outline-white btn-rounded">Subscribe!</a>
+      </li>
+    </ul>
+    <!-- Call to action -->
+
+  </div>
+  <!-- Footer Elements -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">Copyright (c) 2022 Carol Gitonga</div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+{% endblock  %}
