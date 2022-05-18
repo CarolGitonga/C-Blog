@@ -8,7 +8,7 @@
 <p>This is a web app that allows users to sign in or subscribe, view blogs and comment on different blogs. A writer can create blogs, update blogs and delete their blogs or comments on their blogs. The web app has also a section that displays random quotes and subscribers get emails when new blogs are posted.</p>
 
 ## Live Link
-* This is the live [link to the app ](https://carolpitchhub.herokuapp.com/)
+* This is the live [link to the app ](https://carolblogquotes.herokuapp.com/)
 
 ## Screenshot
 
